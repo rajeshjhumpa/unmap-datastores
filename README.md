@@ -1,2 +1,2 @@
 # unmap-datastores
-script to ustilize powercli in order to unmap the datastores to free up unused space 
+script to utilize PowerCLI in order to unmap the datastores to free up unused space 
