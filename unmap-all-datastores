@@ -3,6 +3,8 @@
 #environment variables
 $username = $env:username
 $pass = $env:password
+$server = $env:server
+
 
 #Import PowerCLI Module
 Import-Module VMware.PowerCLI
