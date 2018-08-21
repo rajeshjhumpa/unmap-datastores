@@ -36,5 +36,4 @@ Write-Host " unmap operation completed on all datastores"
 Write-Host " Disconnecting from VIServer"
 
 Disconnect-VIServer -server $Server -Force -Confirm:$False
-
 }
