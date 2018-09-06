@@ -16,7 +16,7 @@ Set-PowerCLIConfiguration -Scope Session -WebOperationTimeoutSeconds -1 -Confirm
 Connect-VIServer -Server $server -User $username -Password $pass
 
 #Get all the datastore clusters
-$datastoreclusters = Get-datastoreclusters
+$datastoreclusters =  Get-DatastoreCluster
 
 Workflow Unmappingdatastores {
 
