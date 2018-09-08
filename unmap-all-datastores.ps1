@@ -18,13 +18,12 @@ Connect-VIServer -Server $server -User $username -Password $pass
 #Get all the datastore clusters
 $datastoreclusters =  Get-DatastoreCluster
 
-Workflow Unmappingdatastores {
 
 #Run unmap on all datastores
-Foreach -parallel ( $datastorecluster in $datastoreclusters )
+Foreach ( $datastorecluster in $datastoreclusters )
 {
   $datastores = Get-Datastore -Location $datastorecluster.Name | where{$_.Type -eq 'VMFS'}
-  Foreach -parallel ($datastore in $datastores)
+  Foreach ($datastore in $datastores)
   {
     $esx = Get-VMHost -Datastore $datastore | Get-Random -Count 1
     $esxcli = Get-EsxCli -VMHost $esx
@@ -36,4 +35,3 @@ Write-Host " unmap operation completed on all datastores"
 Write-Host " Disconnecting from VIServer"
 
 Disconnect-VIServer -server $Server -Force -Confirm:$False
-}
