@@ -28,7 +28,7 @@ Foreach ( $datastorecluster in $datastoreclusters )
     $esx = Get-VMHost -Datastore $datastore | Get-Random -Count 1
     $esxcli = Get-EsxCli -VMHost $esx
     Write-Host 'Unmapping' $datastore.Name on $esx
-    esxcli.storage.vmfs.unmap($null, $datastore.Name, $null)
+    $esxcli.storage.vmfs.unmap($null,$datastore.Name,$null)
   }
 }
 Write-Host " unmap operation completed on all datastores"
