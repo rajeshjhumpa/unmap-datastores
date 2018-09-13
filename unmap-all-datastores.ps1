@@ -27,7 +27,7 @@ Foreach ( $datastorecluster in $datastoreclusters )
   {
     $esx = Get-VMHost -Datastore $datastore | Get-Random -Count 1
     $esxcli = Get-EsxCli -VMHost $esx -V2
-    $unmapargs = $esxcli.storage,vmfs.unmap.CreateArgs()
+    $unmapargs = $esxcli.storage.vmfs.unmap.CreateArgs()
     $unmapargs.volumelabel = $datastore
     $unmapargs.reclaimunit = "256"
     
