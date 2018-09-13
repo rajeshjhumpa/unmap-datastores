@@ -26,9 +26,13 @@ Foreach ( $datastorecluster in $datastoreclusters )
   Foreach ($datastore in $datastores)
   {
     $esx = Get-VMHost -Datastore $datastore | Get-Random -Count 1
-    $esxcli = Get-EsxCli -VMHost $esx
+    $esxcli = Get-EsxCli -VMHost $esx -V2
+    $unmapargs = $esxcli.storage,vmfs.unmap.CreateArgs()
+    $unmapargs.volumelabel = $datastore
+    $unmapargs.reclaimunit = "256"
+    
     Write-Host 'Unmapping' $datastore.Name on $esx
-    $esxcli.storage.vmfs.unmap($null,$datastore.Name,$null)
+    $esxcli.storage.vmfs.unmap.Invoke($unmapargs)
   }
 }
 Write-Host " unmap operation completed on all datastores"
