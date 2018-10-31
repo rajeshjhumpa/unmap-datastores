@@ -3,7 +3,7 @@
 #environment variables
 $username = $env:username
 $pass = $env:password
-$server = $env:server
+$servers = @($env:esx) 
 
 
 #Import PowerCLI Module
@@ -11,30 +11,24 @@ Import-Module VMware.PowerCLI
 
 #Reset session timeout
 Set-PowerCLIConfiguration -Scope Session -WebOperationTimeoutSeconds -1 -Confirm:$False
-
-#connect to the vcenter server
-Connect-VIServer -Server $server -User $username -Password $pass
-
-#Get all the datastore clusters
-$datastoreclusters =  Get-DatastoreCluster
-
-
-#Run unmap on all datastores
-Foreach ( $datastorecluster in $datastoreclusters )
+Foreach ( $server in $servers )
 {
-  $datastores = Get-Datastore -Location $datastorecluster.Name | where{$_.Type -eq 'VMFS'}
-  Foreach ($datastore in $datastores)
-  {
-    $esx = Get-VMHost -Datastore $datastore | Get-Random -Count 1
-    $esxcli = Get-EsxCli -VMHost $esx -V2
-    $unmapargs = $esxcli.storage.vmfs.unmap.CreateArgs()
-    $unmapargs.volumelabel = $datastore
-    $unmapargs.reclaimunit = "256"
+  #connect to the vcenter server
+  Connect-VIServer -Server $server -User $username -Password $pass
+
+      $datastores = Get-Datastore | where{$_.Type -eq 'VMFS'}
+        Foreach ($datastore in $datastores)
+          {
+            $esx = $server
+            $esxcli = Get-EsxCli -VMHost $esx -V2
+            $unmapargs = $esxcli.storage.vmfs.unmap.CreateArgs()
+            $unmapargs.volumelabel = $datastore
+            $unmapargs.reclaimunit = "256"
     
-    Write-Host 'Unmapping' $datastore.Name on $esx
-    $esxcli.storage.vmfs.unmap.Invoke($unmapargs)
-  }
-}
+            Write-Host 'Unmapping' $datastore.Name on $esx
+            $esxcli.storage.vmfs.unmap.Invoke($unmapargs)
+          }
+ }   
 Write-Host " unmap operation completed on all datastores"
 Write-Host " Disconnecting from VIServer"
 
