@@ -3,7 +3,6 @@
 #environment variables
 $username = $env:username
 $pass = $env:password
-$servers = $env:esx 
 
 
 #Import PowerCLI Module
