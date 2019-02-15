@@ -25,10 +25,10 @@ Foreach ( $server in $servers )
          $unmapargs.reclaimunit = "256"
     
          Write-Host 'Unmapping' $datastore.Name on $esx
-         $esxcli.storage.vmfs.unmap.Invoke($unmapargs)
-         Disconnect-VIServer -server $Server -Force -Confirm:$False
+         $esxcli.storage.vmfs.unmap.Invoke($unmapargs)       
        }
  
 Write-Host " unmap operation completed on all datastores"
 Write-Host " Disconnecting from VIServer"
+Disconnect-VIServer -server $Server -Force -Confirm:$False
 }
