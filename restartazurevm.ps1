@@ -1,10 +1,11 @@
 ######################################################################################################
-# Script to Start virtual machines located in Azure
+# Script to Restart virtual machines located in Azure
 # Create Date: 31 July 2021
 # Original Authors : Prateek Siddhu
 # Updated By : Prateek Siddhu
 # Version : 1.0
 ######################################################################################################
+
 
 $vms = $env:vms.split()
 
@@ -22,6 +23,5 @@ Set-AzurermContext -Subscription $subscription
 ForEach ($vms in $vms) {
 
 $vm = Get-AzureRMResource -ResourceName $vms -ResourceType Microsoft.Compute/virtualMachines
-Start-AzureRMVM -Name $vm.Name -ResourceGroupName $vm.ResourceGroupName
+Restart-AzureRMVM -Name $vm.Name -ResourceGroupName $vm.ResourceGroupName
 }
-
