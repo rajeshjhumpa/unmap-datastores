@@ -1,3 +1,3 @@
-#stopazurevm
+#startazurevm
 
-Script to Stop Azure VM in any of the listed subscriptions
+Script to Start Azure VM in any of the listed subscriptions
