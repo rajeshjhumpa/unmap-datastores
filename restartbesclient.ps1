@@ -1,5 +1,5 @@
 ######################################################################################################
-# Script to quries "BesClient" service on all corporate virtual machines
+# Script to restart "BesClient" service on all corporate virtual machines
 # Create Date: 10 June 2021
 # Original Authors : Prateek Siddhu
 # Updated By : Prateek Siddhu
@@ -7,7 +7,7 @@
 ######################################################################################################
 
 $hosts   = $env:hosts.split()
-Write-Host "List of Servers: " $hosts
+Write-Host "List of Servers:" $hosts
 
 $username	= $env:username
 $SecurePass = $env:password
@@ -17,6 +17,7 @@ $credential = New-Object System.Management.Automation.PSCredential($username,$pa
 	foreach ($hosts in $hosts) {
 		Write-Host "Connecting to Server:" $hosts
 		Invoke-Command -ComputerName $hosts -Credential $credential -ScriptBlock {
-			Get-Service -Name "BesClient" | Select Status, Name, PSComputerName
+			Get-Service -Name "BesClient" | Restart-Service -Verbose
 		}
+		Write-Host "Service restarted on server:" $hosts
 	}
