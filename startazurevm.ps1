@@ -5,7 +5,7 @@
 # Updated By : Prateek Siddhu
 # Version : 1.0
 ######################################################################################################
-
+[Net.ServicePointManager]::SecurityProtocol = "tls12"
 $vms = $env:vms.split()
 
 $subscription 	= $env:subscriptionname
